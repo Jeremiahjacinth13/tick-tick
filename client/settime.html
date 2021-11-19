@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TIMER</title>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            background-color: black;
+            height: 100vh;
+            width: 100vw;
+            justify-content: center;
+            font-family: serif;
+            color: white;
+        }
+
+        input {
+            background-color: white;
+            border: none;
+            appearance: none;
+            outline: none;
+            height: 250px;
+            width: 250px;
+            font-size: 100px;
+            text-align: center;
+            margin: 10px;
+        }
+
+        p {
+            text-align: center;
+            font-size: 40px;
+            margin: 0;
+        }
+        button{
+            position: absolute;
+            bottom: 60px;
+            width: 500px;
+            height: 100px;
+            font-size: 50px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <input type='number' min=0 max=59 id = 'hours'/>
+        <p>hours</p>
+    </div>
+    <div>
+        <input type='number' min=0 max=59 id = 'minutes'/>
+        <p>minutes</p>
+    </div>
+    <div>
+        <input type='number' min = 0 max=59 id = 'seconds'/>
+        <p>seconds</p>
+    </div>
+    <button>START</button>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+
+        const socket = io()
+
+        const hours = document.getElementById('hours')
+        const minutes = document.getElementById('minutes')
+        const seconds = document.getElementById('seconds')
+        
+        document.querySelector('button').onclick = (event) => {
+            let hoursValue = parseInt(hours.value)
+            let minutesValue = parseInt(minutes.value)
+            let secondsValue = parseInt(seconds.value)
+
+            const timeInSeconds = hoursValue * 3600 + minutesValue * 60 + secondsValue
+
+            alert(timeInSeconds)
+
+            socket.emit('setTimer', timeInSeconds)
+        }
+    </script>
+</body>
+
+</html>
